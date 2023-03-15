@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pr301s/Firebase/file.dart';
 
+// Tracking Files
 class Track extends StatefulWidget {
   final double height;
   final double width;
@@ -109,10 +110,10 @@ class _TrackState extends State<Track> {
                                                               ),
                                                               SizedBox(
                                                                 height: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .height *
-                                                              0.35,
+                                                                            context)
+                                                                        .size
+                                                                        .height *
+                                                                    0.35,
                                                                 child: StreamBuilder<
                                                                     QuerySnapshot>(
                                                                   stream: FirebaseFirestore
@@ -134,15 +135,10 @@ class _TrackState extends State<Track> {
                                                                     }
                                                                     return ListView
                                                                         .builder(
-                                                                            itemCount: snapshot2
-                                                                                .data
-                                                                                ?.docs
-                                                                                .length,
-                                                                            itemBuilder:
-                                                                                (context, index) {
-                                                                              DocumentSnapshot
-                                                                                  data2 =
-                                                                                  snapshot2.data?.docs[index] as DocumentSnapshot<Object?>;
+                                                                            itemCount:
+                                                                                snapshot2.data?.docs.length,
+                                                                            itemBuilder: (context, index) {
+                                                                              DocumentSnapshot data2 = snapshot2.data?.docs[index] as DocumentSnapshot<Object?>;
                                                                               print(data2.toString());
                                                                               return Row(
                                                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
