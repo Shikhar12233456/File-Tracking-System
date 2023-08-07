@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pr301s/Firebase/file.dart';
 import 'package:pr301s/Firebase/user_save.dart';
@@ -68,6 +69,24 @@ class _DashState extends State<Dash> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Dashboard"),
+          actions: [
+            const Padding(
+              padding: EdgeInsets.only(top: 12),
+              child: Text(
+                "Logout",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+              ),
+            ),
+            IconButton(
+                onPressed: () {
+                  print("Logout");
+                },
+                icon: const Icon(Icons.logout_outlined)),
+            const SizedBox(
+              width: 20,
+            )
+          ],
         ),
         body: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -83,10 +102,14 @@ class _DashState extends State<Dash> {
                   borderOnForeground: true,
                   child: Column(
                     children: [
-                      const CircleAvatar(
-                        radius: 80,
-                        backgroundColor: Colors.black,
-                      ),
+                      CircleAvatar(
+                          radius: 80,
+                          backgroundColor: Colors.black,
+                          child: Image.network(
+                            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmWs4rlQpsv-g9EqXzCglLYTvPM233WyCSaeCEvllSZreaMbZKeDgRcECmDEWowZV16MQ&usqp=CAU",
+                            height: 80,
+                            width: 80,
+                          )),
                       _line(width),
                       SizedBox(
                         height: height * 0.3,
@@ -123,6 +146,61 @@ class _DashState extends State<Dash> {
                       style: BorderStyle.solid,
                       color: Colors.grey.withOpacity(0.6),
                     )),
+                child: Column(
+                  children: [
+                    const Text(
+                      "Notifications",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25),
+                    ),
+                    _line(width * 0.2),
+                    SizedBox(
+                      width: width * 2,
+                      height: height * 0.6 - 20,
+                      child: StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance
+                              .collection("user")
+                              .doc(_currentUser!)
+                              .collection("receivedfiles")
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            return ListView.builder(
+                                itemCount: snapshot.data?.docs.length,
+                                itemBuilder: (context, index) {
+                                  DocumentSnapshot data =
+                                      snapshot.data?.docs[index]
+                                          as DocumentSnapshot<Object?>;
+                                  String id = data['file'];
+                                  return FutureBuilder(
+                                      future: File().getFilebyId(id),
+                                      builder: (context, snap) {
+                                        if (snap.hasData) {
+                                          if (snap.data != null) {
+                                            Map<String, dynamic> file =
+                                                snap.data!;
+                                            return Row(
+                                              children: [
+                                                Text(
+                                                    "You have a file from ${fetchUserName(file["sender"])}"),
+                                              ],
+                                            );
+                                          }
+                                        }
+                                        return Container();
+                                      });
+                                });
+                          }),
+                    ),
+                    TextButton(onPressed: () {}, child: const Text(""))
+                  ],
+                ),
               ),
             ),
           ],
@@ -294,5 +372,15 @@ class _DashState extends State<Dash> {
               ),
               borderSide: BorderSide(color: Colors.black.withOpacity(0.7)))),
     );
+  }
+
+  String fetchUserName(String email) {
+    var indx = email.indexOf('@');
+    String username = email.substring(0, indx);
+    if (kDebugMode) {
+      print(indx);
+      print(username);
+    }
+    return username;
   }
 }

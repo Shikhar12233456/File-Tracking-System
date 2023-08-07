@@ -1,14 +1,16 @@
 import 'dart:typed_data';
-
+import 'dart:html' as html;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:pr301s/model/fileModel.dart';
 
 class File {
+
   final _dbinstance = FirebaseFirestore.instance;
   final _dbstorageinstance = FirebaseStorage.instance;
   final _usercollection = FirebaseFirestore.instance.collection("user");
   final _filecollection = FirebaseFirestore.instance.collection("files");
+
   Future savetoFirebase(Uint8List? file, String? filename, String sender,
       String receiver, String title, String discription, String remark) async {
     String path = "file$filename+${DateTime.now()}";
@@ -95,5 +97,9 @@ class File {
         .collection("receivedfiles")
         .doc(id)
         .set({"file": id});
+  }
+
+  openFile(String url) {
+    html.window.open(url, "Chrome View");
   }
 }

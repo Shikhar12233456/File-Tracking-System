@@ -79,6 +79,13 @@ class InboxState extends State<Inbox> {
                                                   children: [
                                                     Text(file["sender"]),
                                                     Text(file["title"]),
+                                                    TextButton(
+                                                        onPressed: () {
+                                                          File().openFile(
+                                                              file['path']);
+                                                        },
+                                                        child: const Text(
+                                                            "Download File")),
                                                     // Text(file["discription"]),
                                                     DropdownButton2(
                                                       value: chosenacad,
@@ -95,6 +102,7 @@ class InboxState extends State<Inbox> {
                                                       }).toList(),
                                                     ),
                                                     Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                       children: [
                                                         TextButton(
                                                             onPressed: () {
