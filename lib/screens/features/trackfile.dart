@@ -108,11 +108,29 @@ class _TrackState extends State<Track> {
                                                                               .height *
                                                                           0.3,
                                                                       child: Column(
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
                                                                           children: [
-                                                                            Text("titile: ${file['title']}"),
-                                                                            Text("status: ${file['status']}"),
-                                                                            Text("remark: ${file['remark']}"),
-                                                                            Text("discription: ${file['discription']}"),
+                                                                            fileInfo("Title",
+                                                                                file['title']),
+                                                                            // Text("titile:   ${file['title']}"),
+                                                                            const SizedBox(
+                                                                              height: 10,
+                                                                            ),
+                                                                            fileInfo("Status",
+                                                                                file['status']),
+                                                                            // Text("status:   ${file['status']}"),
+                                                                            const SizedBox(
+                                                                              height: 10,
+                                                                            ),
+                                                                            fileInfo("Remark",
+                                                                                file['remark']),
+                                                                            // Text("remark:   ${file['remark']}"),
+                                                                            const SizedBox(
+                                                                              height: 10,
+                                                                            ),
+                                                                            fileInfo("Description",
+                                                                                file['discription']),
                                                                           ]),
                                                                     ),
                                                                     SizedBox(
@@ -199,6 +217,29 @@ class _TrackState extends State<Track> {
                       });
                 }),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget fileInfo(String type, String data) {
+    return SizedBox(
+      height: 20,
+      width: MediaQuery.of(context).size.width,
+      child: Row(
+        children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.15,
+          ),
+          Text(type),
+          const SizedBox(
+            width: 10,
+          ),
+          const Text(":"),
+          const SizedBox(
+            width: 10,
+          ),
+          Text(data)
         ],
       ),
     );

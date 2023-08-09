@@ -6,7 +6,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 Future<String> filePicker() async {
   String temp = " ";
   FilePickerResult? result = await FilePicker.platform.pickFiles();
-  // if (result != null) {
   Uint8List? file = result!.files.single.bytes;
   String? fileName = result.files.single.name;
   print(result.files.first.name);
@@ -17,6 +16,5 @@ Future<String> filePicker() async {
     temp = await ref.getDownloadURL();
     print(temp);
   });
-  // } else {}
   return temp;
 }

@@ -10,7 +10,7 @@ class Auth {
         email: email,
         password: password,
       );
-      Get.offAll(Dash());
+      Get.offAll(const Dash());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         if (kDebugMode) {
@@ -34,7 +34,7 @@ class Auth {
         email: email,
         password: password,
       );
-      Get.offAll(Dash());
+      Get.offAll(const Dash());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         if (kDebugMode) {

@@ -15,12 +15,13 @@ class Inbox extends StatefulWidget {
 
 class InboxState extends State<Inbox> {
   final String? _currentUser = FirebaseAuth.instance.currentUser?.email;
-  String chosenacad = "director.ac.in";
+  String chosenacad = "director@iiitdmj.ac.in";
   List<String> senditemsAcad = [
     "nitintripathi@iiitdmj.ac.in",
     "irshaahmed@iiitdmj.ac.in",
     "deanstudent.ac.in",
-    "director.ac.in"
+    "director@iiitdmj.ac.in",
+    "atulgupta@iiitdmj.ac.in"
   ];
 
   @override
@@ -41,8 +42,6 @@ class InboxState extends State<Inbox> {
               );
             }
             var l = snapshot.data?.docs.length;
-            print(l.toString());
-            // return ListView();
             return ListView.builder(
                 itemCount: snapshot.data?.docs.length,
                 itemBuilder: (context, index) {
@@ -76,16 +75,49 @@ class InboxState extends State<Inbox> {
                                                     0.7,
                                                 color: Colors.white,
                                                 child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
                                                   children: [
+                                                    const Text("Sender:- "),
                                                     Text(file["sender"]),
+                                                    const SizedBox(
+                                                      height: 15,
+                                                    ),
                                                     Text(file["title"]),
+                                                    const SizedBox(
+                                                      height: 15,
+                                                    ),
+                                                    Text(file['discription']),
+                                                    const SizedBox(
+                                                      height: 15,
+                                                    ),
                                                     TextButton(
                                                         onPressed: () {
                                                           File().openFile(
                                                               file['path']);
                                                         },
-                                                        child: const Text(
-                                                            "Download File")),
+                                                        child: Container(
+                                                            alignment: Alignment
+                                                                .center,
+                                                            height: 40,
+                                                            width: 150,
+                                                            decoration: const BoxDecoration(
+                                                                color:
+                                                                    Colors.blue,
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            10))),
+                                                            child: const Text(
+                                                              "Download File",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize: 15,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
+                                                            ))),
                                                     // Text(file["discription"]),
                                                     DropdownButton2(
                                                       value: chosenacad,
@@ -101,8 +133,11 @@ class InboxState extends State<Inbox> {
                                                             child: Text(e));
                                                       }).toList(),
                                                     ),
+                                                    const SizedBox(height: 200,),
                                                     Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceAround,
                                                       children: [
                                                         TextButton(
                                                             onPressed: () {
@@ -112,8 +147,30 @@ class InboxState extends State<Inbox> {
                                                               Navigator.pop(
                                                                   context);
                                                             },
-                                                            child: const Text(
-                                                                "Accept")),
+                                                            child: Container(
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
+                                                                height: 40,
+                                                                width: 90,
+                                                                decoration: const BoxDecoration(
+                                                                    color: Colors
+                                                                        .blue,
+                                                                    borderRadius:
+                                                                        BorderRadius.all(Radius.circular(
+                                                                            10))),
+                                                                child:
+                                                                    const Text(
+                                                                  "Accept",
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          18,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600),
+                                                                ))),
                                                         TextButton(
                                                             onPressed: () {
                                                               if (chosenacad !=
@@ -127,8 +184,30 @@ class InboxState extends State<Inbox> {
                                                                     context);
                                                               }
                                                             },
-                                                            child: const Text(
-                                                                "Forward")),
+                                                            child: Container(
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
+                                                                height: 40,
+                                                                width: 90,
+                                                                decoration: const BoxDecoration(
+                                                                    color: Colors
+                                                                        .blue,
+                                                                    borderRadius:
+                                                                        BorderRadius.all(Radius.circular(
+                                                                            10))),
+                                                                child:
+                                                                    const Text(
+                                                                  "Forward",
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          18,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600),
+                                                                ))),
                                                         TextButton(
                                                             onPressed: () {
                                                               File().rejectFile(
@@ -137,8 +216,30 @@ class InboxState extends State<Inbox> {
                                                               Navigator.pop(
                                                                   context);
                                                             },
-                                                            child: const Text(
-                                                                "Reject"))
+                                                            child: Container(
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
+                                                                height: 40,
+                                                                width: 90,
+                                                                decoration: const BoxDecoration(
+                                                                    color: Colors
+                                                                        .blue,
+                                                                    borderRadius:
+                                                                        BorderRadius.all(Radius.circular(
+                                                                            10))),
+                                                                child:
+                                                                    const Text(
+                                                                  "Reject",
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          18,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600),
+                                                                )))
                                                       ],
                                                     )
                                                   ],
@@ -146,12 +247,43 @@ class InboxState extends State<Inbox> {
                                               ),
                                             )));
                               },
-                              child: SizedBox(
-                                child: Row(
-                                  children: [
-                                    Text(file["title"]),
-                                    Text(file["sender"])
-                                  ],
+                              child: Card(
+                                elevation: 2,
+                                child: Container(
+                                  height: 100,
+                                  decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10))),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Text(
+                                        file["sender"],
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                      Text(file["title"]),
+                                      Container(
+                                          alignment: Alignment.center,
+                                          height: 40,
+                                          width: 90,
+                                          decoration: const BoxDecoration(
+                                              color: Colors.blue,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10))),
+                                          child: const Text(
+                                            "View",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w600),
+                                          ))
+                                    ],
+                                  ),
                                 ),
                               ),
                             );

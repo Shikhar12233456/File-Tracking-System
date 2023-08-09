@@ -5,6 +5,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+// import 'package:get/get.dart';
+// import 'package:marquee/marquee.dart';
 import 'package:pr301s/Firebase/file.dart';
 import 'package:pr301s/Firebase/user_save.dart';
 import 'package:pr301s/screens/features/inbox.dart';
@@ -27,24 +29,26 @@ class _DashState extends State<Dash> {
   final _descriptionTextEditingController = TextEditingController();
   final _remarkTextEditingController = TextEditingController();
   final String? _currentUser = FirebaseAuth.instance.currentUser!.email;
-  String chosen = "xyz2@iiitdmj.ac.in";
+  String chosen = "nitintripathi@iiitdmj.ac.in";
   List<String> senditems = [
     "nitintripathi@iiitdmj.ac.in",
-    "xyz2@iiitdmj.ac.in",
-    "xyz3@iiitdmj.ac.in",
-    "xyz4@iiitdmj.ac.in"
+    "irshadanshari@iiitdmj.ac.in",
+    "director@iiitdmj.ac.in",
+    "deanstudent@iiitdmj.ac.in",
+    "atulgupta@iiitdmj.ac.in"
   ];
   String chosenacad = "director.ac.in";
   List<String> senditemsAcad = [
     "nitintripathi@iiitdmj.ac.in",
-    "irshaahmed@iiitdmj.ac.in",
-    "deanstudent.ac.in",
-    "director.ac.in"
+    "irshadanshari@iiitdmj.ac.in",
+    "director@iiitdmj.ac.in",
+    "deanstudent@iiitdmj.ac.in",
+    "atulgupta@iiitdmj.ac.in"
   ];
   renew() {
     setState(() {
       fileName = "No files selected";
-      chosen = "xyz2@iiitdmj.ac.in";
+      chosen = "nitintripathi@iiitdmj.ac.in";
     });
     _tittletextEditingController.clear();
     _descriptionTextEditingController.clear();
@@ -113,15 +117,34 @@ class _DashState extends State<Dash> {
                       _line(width),
                       SizedBox(
                         height: height * 0.3,
+                        child: SizedBox(
+                          height: height * 0.2,
+                          child: Column(
+                            children: [
+                              Text(
+                                user['username'],
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                              Text(
+                                user['bio'],
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w200),
+                              )
+                            ],
+                          ),
+                        ),
                       ),
                       _line(width),
                       button("Send File", 1),
                       _line(width),
                       button("Inbox", 2),
                       _line(width),
-                      button("Sent", 3),
-                      _line(width),
-                      button("Track File", 4)
+                      button("Track File", 3)
                     ],
                   ),
                 ),
@@ -131,10 +154,13 @@ class _DashState extends State<Dash> {
                 height: height * 0.9,
                 width: width * 0.5,
                 child: _selectChild(postion, height * 0.9, width * 0.5)),
+            const SizedBox(
+              width: 20,
+            ),
             Container(
               alignment: Alignment.centerLeft,
               height: height * 0.9,
-              width: width * 0.25,
+              width: width * 0.20,
               child: Container(
                 height: height * 0.7,
                 width: width * 0.2,
@@ -187,8 +213,30 @@ class _DashState extends State<Dash> {
                                                 snap.data!;
                                             return Row(
                                               children: [
-                                                Text(
-                                                    "You have a file from ${fetchUserName(file["sender"])}"),
+                                                // merquee
+                                                // Marquee(
+                                                //   text:
+                                                //       'There once was a boy who told this story about a boy: "',
+                                                // ),
+                                                Container(
+                                                  height: 30,
+                                                  width: width * 0.197,
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius: BorderRadius.circular(2),
+                                                      border: Border.all(
+                                                          color: Colors.grey,
+                                                          width: 0.5)),
+                                                  child: Text(
+                                                    "You have a file from ${fetchUserName(file["sender"])}",
+                                                    style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.normal),
+                                                  ),
+                                                ),
                                               ],
                                             );
                                           }
@@ -226,8 +274,6 @@ class _DashState extends State<Dash> {
       case 2:
         return Inbox(height: height, width: width);
       case 3:
-        return const Text("case 3");
-      case 4:
         return Track(height: height, width: width);
     }
   }
@@ -261,85 +307,138 @@ class _DashState extends State<Dash> {
   Widget _makeForm(TextEditingController title,
       TextEditingController discription, TextEditingController remark) {
     return Card(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          _headingText("Title"),
-          _textfield("Title", title),
-          _headingText("Add Discription"),
-          _textfield("Discription", discription),
-          Container(
-            height: 50,
-            decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(0.05),
-                borderRadius: const BorderRadius.all(Radius.circular(4)),
-                border: Border.all(color: Colors.black.withOpacity(0.7))),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(
-                  child: Text(fileName.toString()),
-                ),
-                TextButton(
-                  onPressed: () async {
-                    FilePickerResult? result =
-                        await FilePicker.platform.pickFiles();
-                    file = result!.files.single.bytes;
-                    setState(() {
-                      showText = true;
-                      fileName = result.files.single.name;
-                    });
-                  },
-                  child: Container(
+          const SizedBox(
+            width: 60,
+          ),
+          SizedBox(
+            width: 500,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _headingText("Title"),
+                  _textfield("Title", title),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  _headingText("Add Description"),
+                  _textfield("Description", discription),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Container(
+                    height: 50,
                     decoration: BoxDecoration(
-                        color: Colors.grey.withOpacity(0.2),
+                        color: Colors.grey.withOpacity(0.05),
                         borderRadius:
-                            const BorderRadius.all(Radius.circular(4)),
+                            const BorderRadius.all(Radius.circular(10)),
                         border:
                             Border.all(color: Colors.black.withOpacity(0.7))),
-                    child: const Padding(
-                      padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
-                      child: Text(
-                        "Upload",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, color: Colors.black),
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SizedBox(
+                          child: Text(fileName.toString()),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            FilePickerResult? result =
+                                await FilePicker.platform.pickFiles();
+                            file = result!.files.single.bytes;
+                            setState(() {
+                              showText = true;
+                              fileName = result.files.single.name;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.grey.withOpacity(0.2),
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(4)),
+                                border: Border.all(
+                                    color: Colors.black.withOpacity(0.7))),
+                            child: const Padding(
+                              padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
+                              child: Text(
+                                "Upload",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  DropdownButton2(
+                    value: chosen,
+                    onChanged: (newval) {
+                      setState(() {
+                        chosen = newval!;
+                      });
+                    },
+                    items: senditems.map((e) {
+                      return DropdownMenuItem(value: e, child: Text(e));
+                    }).toList(),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  _headingText("Remark*"),
+                  _textfield("Remark", remark),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextButton(
+                      onPressed: () async {
+                        if (title.text.isEmpty ||
+                            discription.text.isEmpty ||
+                            _currentUser!.isEmpty) {
+                          const snackBar =
+                              SnackBar(content: Text("Feilds Cann't be empty"));
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        } else {
+                          File().savetoFirebase(
+                              file,
+                              fileName,
+                              _currentUser!,
+                              chosen,
+                              title.text,
+                              discription.text,
+                              remark.text);
+
+                          renew();
+                        }
+                      },
+                      child: Container(
+                          height: 40,
+                          width: 100,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              color: Colors.blue[300],
+                              borderRadius: BorderRadius.circular(10)),
+                          child: const Text(
+                            "Send",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 20),
+                          )))
+                ],
+              ),
             ),
           ),
-          DropdownButton2(
-            value: chosen,
-            onChanged: (newval) {
-              setState(() {
-                chosen = newval!;
-              });
-            },
-            items: senditems.map((e) {
-              return DropdownMenuItem(value: e, child: Text(e));
-            }).toList(),
-          ),
-          _headingText("Ramark *"),
-          _textfield("Remark", remark),
-          TextButton(
-              onPressed: () async {
-                if (title.text.isEmpty ||
-                    discription.text.isEmpty ||
-                    _currentUser!.isEmpty) {
-                  const snackBar =
-                      SnackBar(content: Text("Feilds Cann't be empty"));
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                } else {
-                  File().savetoFirebase(file, fileName, _currentUser!, chosen,
-                      title.text, discription.text, remark.text);
-
-                  renew();
-                }
-              },
-              child: const Text("Send"))
+          const SizedBox(
+            width: 20,
+          )
         ],
       ),
     );
@@ -363,7 +462,7 @@ class _DashState extends State<Dash> {
           hintText: hint,
           enabledBorder: OutlineInputBorder(
               borderRadius: const BorderRadius.all(
-                Radius.circular(5),
+                Radius.circular(10),
               ),
               borderSide: BorderSide(color: Colors.black.withOpacity(0.7))),
           focusedBorder: OutlineInputBorder(

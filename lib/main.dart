@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:pr301s/screens/dashboard.dart';
 import 'package:pr301s/screens/home.dart';
+import 'package:pr301s/screens/s_login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: _auth == null ? Home() : const Dash(),
+      home: _auth == null ? Login() : const Dash(),
     );
   }
 }

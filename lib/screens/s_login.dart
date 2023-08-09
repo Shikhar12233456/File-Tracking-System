@@ -18,7 +18,7 @@ class _LoginState extends State<Login> {
       body: Center(
         child: Container(
           width: MediaQuery.of(context).size.width * 0.3,
-          height: MediaQuery.of(context).size.height * 0.4,
+          height: MediaQuery.of(context).size.height * 0.45,
           decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(5)),
               border: Border.all(width: 1, color: Colors.black)),
@@ -28,19 +28,13 @@ class _LoginState extends State<Login> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  "File Tracking System",
-                  style: TextStyle(
-                      color: Colors.deepOrange,
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold),
-                ),
+                Image.asset("assets/logo.jpeg"),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 tec("Email", _email, false),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 tec("Password", _password, true),
                 const SizedBox(
@@ -50,23 +44,26 @@ class _LoginState extends State<Login> {
                     onPressed: () {
                       Auth().signIn(_email.text, _password.text);
                     },
-                    child: Container(
-                        alignment: Alignment.center,
-                        width: MediaQuery.of(context).size.width * 0.15,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            color: Colors.deepOrange,
-                            border: Border.all(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width * 0.15,
+                          height: 50,
+                          decoration: BoxDecoration(
                               color: Colors.deepOrange,
-                            ),
-                            borderRadius: BorderRadius.circular(20)),
-                        child: const Text(
-                          "Login",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 20),
-                        )))
+                              border: Border.all(
+                                color: Colors.deepOrange,
+                              ),
+                              borderRadius: BorderRadius.circular(20)),
+                          child: const Text(
+                            "Login",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 20),
+                          )),
+                    ))
               ],
             ),
           ),
@@ -80,7 +77,7 @@ class _LoginState extends State<Login> {
       controller: controller,
       obscureText: ispassWord,
       decoration: InputDecoration(
-        labelText: hint,
+        // labelText: hint,
         hintText: hint,
         border: OutlineInputBorder(
             borderSide:
