@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: _auth == null ? Login() : const Dash(),
+      home: _auth == null ? Home() : const Dash(),
     );
   }
 }
